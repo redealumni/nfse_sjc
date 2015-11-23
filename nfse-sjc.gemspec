@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'nfse/sjc/version'
+require 'nfse/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "nfse-sjc"
-  spec.version       = Nfse::Sjc::VERSION
+  spec.version       = NFSe::VERSION
   spec.authors       = ["Daniel Gracia"]
   spec.email         = ["daniel.santos@redealumni.com"]
 
@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "savon", "~> 2.0"
+  spec.add_dependency "nokogiri", "~> 1.6"
 
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
