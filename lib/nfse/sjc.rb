@@ -1,3 +1,4 @@
+require 'savon'
 require "nfse/sjc/version"
 
 module Nfse
