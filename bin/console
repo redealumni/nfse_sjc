@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
-require "nfse/sjc"
+require "nfse"
 
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
@@ -12,3 +12,14 @@ require "nfse/sjc"
 
 require "pry"
 Pry.start
+
+## example
+# client = Savon.client({
+#   wsdl:'https://homologacao.ginfes.com.br/ServiceGinfesImpl?wsdl',
+#   ssl_cert_file: 'cert/certificado.pem',
+#   ssl_cert_key_file: 'cert/chave-privada.pem',
+#   ssl_cert_key_password: 'INSERT_YOUR_PASSWORD_HERE'
+# })
+
+## list all operations
+# client.operations
