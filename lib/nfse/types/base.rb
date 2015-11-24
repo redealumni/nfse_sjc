@@ -23,16 +23,37 @@ module NFSe
         @builder
       end
 
+      def build_attribute(name)
+        xml.parent[name] = params[name]
+      end
+
       def params
         @params
       end
 
-      def build_field(name)
+      def choice(*keys)
+        only_one = keys.one? { |k| params.has_key?(k) }
+        unless only_one
+          raise InvalidArgumentError, "ambiguous parameters for choice field"
+        end
+
+        yield self
+      end
+
+      def build_field(name, optional = false)
+        if optional
+          return unless params.has_key?(name)
+        end
+
         xml.send(name, params[name])
       end
 
-      def build_into_self(element, of:, with: params[element])
-        xml.send(elemend) do
+      def build_into_self(element, optional = false, of:, with: params[element])
+        if optional
+          return unless (with.nil? || with.empty?)
+        end
+
+        xml.send(element) do
           of.build_into(self, with: with)
         end
       end

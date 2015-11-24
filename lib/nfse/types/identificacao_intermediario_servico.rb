@@ -4,7 +4,7 @@ module NFSe
       def process
         build_field 'RazaoSocial'
         build_into_self 'CpfCnpj', of: CpfCnpj
-        build_field 'InscricaoMunicipal'
+        build_field 'InscricaoMunicipal', :optional
       end
     end
   end

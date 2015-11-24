@@ -2,13 +2,13 @@ module NFSe
   module Types
     class Endereco < Base
       def process
-        build_field 'Endereco'
-        build_field 'Numero'
-        build_field 'Complemento'
-        build_field 'Bairro'
-        build_field 'CodigoMunicipio'
-        build_field 'Uf'
-        build_field 'Cep'
+        build_field 'Endereco', :optional
+        build_field 'Numero', :optional
+        build_field 'Complemento', :optional
+        build_field 'Bairro', :optional
+        build_field 'CodigoMunicipio', :optional
+        build_field 'Uf', :optional
+        build_field 'Cep', :optional
       end
     end
   end

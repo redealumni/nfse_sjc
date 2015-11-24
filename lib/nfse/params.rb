@@ -4,7 +4,7 @@ module NFSe
   class Params < Hash
     # Add Hashie extensions for "smartest hash ever"
     include Hashie::Extensions::IndifferentAccess
-    include Hashie::Extensions::MethodAccessWithOverride
+    include Hashie::Extensions::MethodAccess
 
     def self.wrap(hash)
       hash.is_a?(self) ? self : self.new(hash)
