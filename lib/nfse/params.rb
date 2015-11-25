@@ -7,7 +7,7 @@ module NFSe
     include Hashie::Extensions::MethodAccess
 
     def self.wrap(hash)
-      hash.is_a?(self) ? self : self.new(hash)
+      hash.is_a?(self) ? hash : self.new(hash)
     end
 
     def slice(*keys)
