@@ -23,8 +23,8 @@ module NFSe
         @builder
       end
 
-      def build_attribute(name)
-        xml.parent[name] = params[name]
+      def build_attribute(name, with: params[name])
+        xml.parent[name] = with
       end
 
       def params

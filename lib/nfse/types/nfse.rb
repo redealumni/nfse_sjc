@@ -3,7 +3,7 @@ module NFSe
     class NFSe < Base
       def process
         build_into_self 'InfNfse', of: InfNFSe
-        # build_into_self 'Signature', of: Signature
+        build_into_self 'Signature', of: Signature
       end
     end
   end
