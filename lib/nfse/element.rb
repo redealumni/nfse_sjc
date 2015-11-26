@@ -1,16 +1,14 @@
 module NFSe
   class Element
+    attr_reader :builder
+
     def self.build_into(current, with: {})
-      self.new(current).with_fields(with).process
+      self.new(current.builder, with).process
     end
 
-    def initialize(builder = Nokogiri::XML::Builder.new)
+    def initialize(builder = Nokogiri::XML::Builder.new, params = NFSe::Params.new)
       @builder = builder
-    end
-
-    def with_params
       @params = NFSe::Params.wrap(params)
-      self
     end
 
     def process
