@@ -3,7 +3,7 @@ module NFSe
     class IdentificacaoIntermediarioServico < Base
       def process
         build_field 'RazaoSocial'
-        build_into_self 'CpfCnpj', of: CpfCnpj
+        build_into_self 'CpfCnpj', of: Types::CpfCnpj
         build_field 'InscricaoMunicipal', :optional
       end
     end

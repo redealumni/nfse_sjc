@@ -2,7 +2,7 @@ module NFSe
   module Types
     class DadosServico < Base
       def process
-        build_into_self 'Valores', of: Valores
+        build_into_self 'Valores', of: Types::Valores
         build_field 'ItemListaServico'
         build_field 'CodigoCnae', :optional
         build_field 'CodigoTributacaoMunicipio', :optional

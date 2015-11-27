@@ -2,9 +2,9 @@ module NFSe
   module Types
     class CompNFSe < Base
       def process
-        build_into_self 'Nfse', of: NFSe
-        build_into_self 'NfseCancelamento', :opcional, of: CancelamentoNFSe
-        build_into_self 'NfseSubstituicao', :opcional, of: SubstituicaoNFSe
+        build_into_self 'Nfse', of: Types::NFSe
+        build_into_self 'NfseCancelamento', :opcional, of: Types::CancelamentoNFSe
+        build_into_self 'NfseSubstituicao', :opcional, of: Types::SubstituicaoNFSe
       end
     end
   end

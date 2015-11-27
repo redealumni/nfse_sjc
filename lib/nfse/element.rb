@@ -51,5 +51,5 @@ end
 # Load element types
 for folder in %w(types documents)
   require_relative "#{folder}/base"
-  Dir["#{folder}/*.rb"].each { |f| require_relative f }
+  Dir[File.expand_path("../#{folder}/*.rb", __FILE__)].each { |f| require f }
 end

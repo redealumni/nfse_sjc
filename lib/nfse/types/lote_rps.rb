@@ -9,7 +9,9 @@ module NFSe
         build_field 'QuantidadeRps'
 
         xml.listaRps do
-          build_into_self 'Rps', of: Rps
+          params.Rps.each do |rps|
+            build_into_self 'Rps', of: Types::Rps, with: rps
+          end
         end
       end
     end

@@ -1,6 +1,6 @@
 module NFSe
   module Types
-    class CPF_CNPJ < Base
+    class CpfCnpj < Base
       def process
         choice('Cpf', 'Cnpj') do
           build_field 'Cpf', :optional

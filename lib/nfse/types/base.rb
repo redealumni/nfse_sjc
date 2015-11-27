@@ -4,7 +4,7 @@ module NFSe
       def choice(*keys)
         only_one = keys.one? { |k| params.has_key?(k) }
         unless only_one
-          raise InvalidArgumentError, "ambiguous parameters for choice field"
+          raise ArgumentError, "ambiguous parameters for choice field"
         end
 
         yield self

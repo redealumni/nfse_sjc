@@ -1,6 +1,6 @@
 module NFSe
   module Types
-    class IdentificacaoRPS < Base
+    class IdentificacaoRps < Base
       def process
         build_field 'Numero'
         build_field 'Serie'
