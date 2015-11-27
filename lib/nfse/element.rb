@@ -47,3 +47,9 @@ module NFSe
     end
   end
 end
+
+# Load element types
+for folder in %w(types documents)
+  require_relative "#{folder}/base"
+  Dir["#{folder}/*.rb"].each { |f| require_relative f }
+end
