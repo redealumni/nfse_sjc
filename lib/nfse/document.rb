@@ -29,8 +29,8 @@ module NFSe
       return value
     end
 
-    def if_param(*path)
-      value = param(*path)
+    def if_param(*path, with: @params)
+      value = param(*path, with: with)
       yield value unless value.nil?
     end
   end

@@ -1,51 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:ConsultarNfseEnvio Id="" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:p="http://www.ginfes.com.br/servico_consultar_nfse_envio_v03.xsd" xmlns:p1="http://www.ginfes.com.br/tipos_v03.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ginfes.com.br/servico_consultar_nfse_envio_v03.xsd ../etc/servico_consultar_nfse_envio_v03.xsd ">
+<p:ConsultarNfseEnvio <%= if_param('PedidoCancelamento', 'Id') { |val| "Id=#{ val }" } %>
+  xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+  xmlns:p="http://www.ginfes.com.br/servico_consultar_nfse_envio_v03.xsd"
+  xmlns:p1="http://www.ginfes.com.br/tipos_v03.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="<%= schema_path('servico_consultar_nfse_envio_v03.xsd')%>">
   <p:Prestador>
-    <p1:Cnpj>p1:Cnpj</p1:Cnpj>
-    <p1:InscricaoMunicipal>p1:InscricaoMunicipal</p1:InscricaoMunicipal>
+    <p1:Cnpj><%= param('Prestador', 'Cnpj') %></p1:Cnpj>
+    <% if_param('Prestador', 'InscricaoMunicipal') do |val| %>
+      <p1:InscricaoMunicipal><%= val %></p1:InscricaoMunicipal>
+    <% end %>
   </p:Prestador>
-  <p:NumeroNfse>0</p:NumeroNfse>
+  <% if_param('NumeroNfse') do |val| %>
+    <p:NumeroNfse><%= val %></p:NumeroNfse>
+  <% end %>
   <p:PeriodoEmissao>
-    <p:DataInicial>2001-01-01</p:DataInicial>
-    <p:DataFinal>2001-01-01</p:DataFinal>
+    <p:DataInicial><%= param('PeriodoEmissao', 'DataInicial') %></p:DataInicial>
+    <p:DataFinal><%= param('PeriodoEmissao', 'DataFinal') %></p:DataFinal>
   </p:PeriodoEmissao>
   <p:Tomador>
-    <p1:CpfCnpj>
-      <p1:Cpf>p1:Cpf</p1:Cpf>
-    </p1:CpfCnpj>
-    <p1:InscricaoMunicipal>p1:InscricaoMunicipal</p1:InscricaoMunicipal>
+    <% if_param('Tomador', 'CpfCnpj') do |val| %>
+      <p1:CpfCnpj>
+        <% if_param('Cnpj', with: val) do |cnpj| %>
+          <p1:Cnpj><%= cnpj %></p1:Cnpj>
+        <% end %>
+        <% if_param('Cpf', with: val) do |cpf| %>
+          <p1:Cpf><%= cpf %></p1:Cpf>
+        <% end %>
+      </p1:CpfCnpj>
+    <% end %>
+    <% if_param('Prestador', 'InscricaoMunicipal') do |val| %>
+      <p1:InscricaoMunicipal><%= val %></p1:InscricaoMunicipal>
+    <% end %>
   </p:Tomador>
   <p:IntermediarioServico>
-    <p1:RazaoSocial>p1:RazaoSocial</p1:RazaoSocial>
-    <p1:CpfCnpj>
-      <p1:Cpf>p1:Cpf</p1:Cpf>
-    </p1:CpfCnpj>
-    <p1:InscricaoMunicipal>p1:InscricaoMunicipal</p1:InscricaoMunicipal>
+    <p1:RazaoSocial><%= param('IntermediarioServico', 'RazaoSocial') %></p1:RazaoSocial>
+    <% if_param('IntermediarioServico', 'CpfCnpj') do |val| %>
+      <p1:CpfCnpj>
+        <% if_param('Cnpj', with: val) do |cnpj| %>
+          <p1:Cnpj><%= cnpj %></p1:Cnpj>
+        <% end %>
+        <% if_param('Cpf', with: val) do |cpf| %>
+          <p1:Cpf><%= cpf %></p1:Cpf>
+        <% end %>
+      </p1:CpfCnpj>
+    <% end %>
+    <% if_param('IntermediarioServico', 'InscricaoMunicipal') do |val| %>
+      <p1:InscricaoMunicipal><%= val %></p1:InscricaoMunicipal>
+    <% end %>
   </p:IntermediarioServico>
-  <ds:Signature Id="idvalue0">
-    <ds:SignedInfo Id="idvalue1">
-      <ds:CanonicalizationMethod Algorithm="http://tempuri.org"/>
-      <ds:SignatureMethod Algorithm="http://tempuri.org">
-        <ds:HMACOutputLength>0</ds:HMACOutputLength>
-      </ds:SignatureMethod>
-      <ds:Reference Id="idvalue2" Type="http://tempuri.org" URI="http://tempuri.org">
-        <ds:Transforms>
-          <ds:Transform Algorithm="http://tempuri.org">
-            <ds:XPath>ds:XPath</ds:XPath>
-          </ds:Transform>
-        </ds:Transforms>
-        <ds:DigestMethod Algorithm="http://tempuri.org"/>
-        <ds:DigestValue>MA==</ds:DigestValue>
-      </ds:Reference>
-    </ds:SignedInfo>
-    <ds:SignatureValue Id="idvalue3">MA==</ds:SignatureValue>
-    <ds:KeyInfo Id="idvalue4">
-      <ds:KeyName>ds:KeyName</ds:KeyName>
-    </ds:KeyInfo>
-    <ds:Object Encoding="http://tempuri.org" Id="idvalue5" MimeType="">
-      <ds:SPKIData>
-        <ds:SPKISexp>MA==</ds:SPKISexp>
-      </ds:SPKIData>
-    </ds:Object>
-  </ds:Signature>
+  <% param('Signature').each do |sign| %>
+    <%= render '_signature.xml.erb', sign %>
+  <% end %>
 </p:ConsultarNfseEnvio>
