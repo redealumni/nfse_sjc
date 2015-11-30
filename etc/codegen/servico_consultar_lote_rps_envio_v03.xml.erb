@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:ConsultarLoteRpsEnvio <%= if_param('PedidoCancelamento', 'Id') { |val| "Id=#{ val }" } %>
+<p:ConsultarLoteRpsEnvio <%= if_param('Id') { |val| "Id=#{ val }" } %>
   xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
   xmlns:p="http://www.ginfes.com.br/servico_consultar_lote_rps_envio_v03.xsd"
   xmlns:p1="http://www.ginfes.com.br/tipos_v03.xsd"

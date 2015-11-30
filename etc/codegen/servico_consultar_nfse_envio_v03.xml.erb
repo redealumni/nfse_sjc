@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:ConsultarNfseEnvio <%= if_param('PedidoCancelamento', 'Id') { |val| "Id=#{ val }" } %>
+<p:ConsultarNfseEnvio <%= if_param('Id') { |val| "Id=#{ val }" } %>
   xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
   xmlns:p="http://www.ginfes.com.br/servico_consultar_nfse_envio_v03.xsd"
   xmlns:p1="http://www.ginfes.com.br/tipos_v03.xsd"
@@ -29,7 +29,7 @@
         <% end %>
       </p1:CpfCnpj>
     <% end %>
-    <% if_param('Prestador', 'InscricaoMunicipal') do |val| %>
+    <% if_param('Tomador', 'InscricaoMunicipal') do |val| %>
       <p1:InscricaoMunicipal><%= val %></p1:InscricaoMunicipal>
     <% end %>
   </p:Tomador>
