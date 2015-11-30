@@ -17,8 +17,3 @@ module NFSe
     end
   end
 end
-
-require_relative 'nfse/schemas'
-require_relative 'nfse/params'
-require_relative 'nfse/element'
-require_relative 'nfse/version'

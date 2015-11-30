@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:ConsultarNfseRpsEnvio xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:p="http://www.ginfes.com.br/servico_consultar_nfse_rps_envio_v03.xsd" xmlns:p1="http://www.ginfes.com.br/tipos_v03.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ginfes.com.br/servico_consultar_nfse_rps_envio_v03.xsd ../etc/servico_consultar_nfse_rps_envio_v03.xsd ">
+  <p:IdentificacaoRps>
+    <p1:Numero>0</p1:Numero>
+    <p1:Serie>p1:Serie</p1:Serie>
+    <p1:Tipo>0</p1:Tipo>
+  </p:IdentificacaoRps>
+  <p:Prestador>
+    <p1:Cnpj>p1:Cnpj</p1:Cnpj>
+    <p1:InscricaoMunicipal>p1:InscricaoMunicipal</p1:InscricaoMunicipal>
+  </p:Prestador>
+  <ds:Signature Id="idvalue0">
+    <ds:SignedInfo Id="idvalue1">
+      <ds:CanonicalizationMethod Algorithm="http://tempuri.org"/>
+      <ds:SignatureMethod Algorithm="http://tempuri.org">
+        <ds:HMACOutputLength>0</ds:HMACOutputLength>
+      </ds:SignatureMethod>
+      <ds:Reference Id="idvalue2" Type="http://tempuri.org" URI="http://tempuri.org">
+        <ds:Transforms>
+          <ds:Transform Algorithm="http://tempuri.org">
+            <ds:XPath>ds:XPath</ds:XPath>
+          </ds:Transform>
+        </ds:Transforms>
+        <ds:DigestMethod Algorithm="http://tempuri.org"/>
+        <ds:DigestValue>MA==</ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue Id="idvalue3">MA==</ds:SignatureValue>
+    <ds:KeyInfo Id="idvalue4">
+      <ds:KeyName>ds:KeyName</ds:KeyName>
+    </ds:KeyInfo>
+    <ds:Object Encoding="http://tempuri.org" Id="idvalue5" MimeType="">
+      <ds:SPKIData>
+        <ds:SPKISexp>MA==</ds:SPKISexp>
+      </ds:SPKIData>
+    </ds:Object>
+  </ds:Signature>
+</p:ConsultarNfseRpsEnvio>
