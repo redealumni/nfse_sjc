@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:ConsultarSituacaoLoteRpsEnvio <%= if_param('Id') { |val| "Id=#{ val }" } %>
+<p:ConsultarLoteRpsEnvio <%= if_param('Id') { |val| "Id=#{ val }" } %>
   xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-  xmlns:p="http://www.ginfes.com.br/servico_consultar_situacao_lote_rps_envio_v03.xsd"
+  xmlns:p="http://www.ginfes.com.br/servico_consultar_lote_rps_envio_v03.xsd"
   xmlns:p1="http://www.ginfes.com.br/tipos_v03.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="<%= schema_path('servico_consultar_nfse_rps_envio_v03.xsd')%>">
+  xsi:schemaLocation="<%= schema_path('servico_consultar_lote_rps_envio_v03.xsd')%>">
   <p:Prestador>
     <p1:Cnpj><%= param('Prestador', 'Cnpj') %></p1:Cnpj>
     <% if_param('Prestador', 'InscricaoMunicipal') do |val| %>
@@ -12,7 +12,7 @@
     <% end %>
   </p:Prestador>
   <p:Protocolo><%= param('Protocolo') %></p:Protocolo>
-  <% param('Signature').each do |sign| %>
+  <% Array(param('Signature')).each do |sign| %>
     <%= render '_signature.xml.erb', sign %>
   <% end %>
-</p:ConsultarSituacaoLoteRpsEnvio>
+</p:ConsultarLoteRpsEnvio>

@@ -23,6 +23,8 @@ module NFSe
 
   module Config
     class << self
+      attr_writer :wsdl, :ssl_cert_file, :ssl_cert_key_file, :ssl_cert_key_password
+
       def wsdl
         @wsdl ||= ENV['NFSE_SJC_WSDL_URI']
       end
@@ -41,6 +43,10 @@ module NFSe
     end
   end
 
+  def self.config
+    yield Config
+  end
+
   class Client
     def initialize(params = {})
       @savon = Savon.client slice(params, :wsdl, :ssl_cert_file, :ssl_cert_key_file, :ssl_cert_key_password).merge({
@@ -48,7 +54,7 @@ module NFSe
         ssl_cert_key_file: Config.ssl_cert_key_file, ssl_cert_key_password: Config.ssl_cert_key_password
       })
 
-      @header = Document.new(Dirs.template('cabecalho_v03.xml.erb'), {
+      @header = Document.new(Dirs.template('cabecalho_v3.xml.erb'), {
         'Cabecalho' => {
           'Versao' => '03', 'VersaoDados' => '03'
         }
@@ -56,7 +62,7 @@ module NFSe
     end
 
     def call(method, params)
-      @savon.call(method, {
+      @savon.call(method, message: {
         arg0: @header,
         arg1: Document.new(Dirs.template("#{method}.xml.erb"), params)
       })
@@ -71,6 +77,7 @@ module NFSe
   end
 end
 
+require 'savon'
 require_relative 'nfse/document'
 require_relative 'nfse/version'
 

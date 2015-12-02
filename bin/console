@@ -14,12 +14,11 @@ require "pry"
 Pry.start
 
 ## example
-# client = Savon.client({
-#   wsdl:'https://homologacao.ginfes.com.br/ServiceGinfesImpl?wsdl',
-#   ssl_cert_file: 'cert/certificado.pem',
-#   ssl_cert_key_file: 'cert/chave-privada.pem',
-#   ssl_cert_key_password: 'INSERT_YOUR_PASSWORD_HERE'
-# })
+# NFSe.config do |cfg|
+#   cfg.wsdl = 'https://homologacao.ginfes.com.br/ServiceGinfesImpl?wsdl'
+#   cfg.ssl_cert_file = 'cert/certificado.pem'
+#   cfg.ssl_cert_key_file = 'cert/chave-privada.pem'
+#   cfg.ssl_cert_key_password = 'INSERT_YOUR_PASSWORD_HERE'
+# end
 
-## list all operations
-# client.operations
+# client = NFSe::Client.new

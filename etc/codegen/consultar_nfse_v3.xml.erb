@@ -49,7 +49,7 @@
       <p1:InscricaoMunicipal><%= val %></p1:InscricaoMunicipal>
     <% end %>
   </p:IntermediarioServico>
-  <% param('Signature').each do |sign| %>
+  <% Array(param('Signature')).each do |sign| %>
     <%= render '_signature.xml.erb', sign %>
   <% end %>
 </p:ConsultarNfseEnvio>
