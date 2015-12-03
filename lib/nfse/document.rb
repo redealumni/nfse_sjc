@@ -4,11 +4,11 @@ module NFSe
   class Document
     def initialize(filepath, params = {})
       @params = params
-      @file = File.read(filepath)
+      @template = load_template(filepath)
     end
 
     def to_xml
-      Erubis::Eruby.new(@file).result(binding)
+      @template.result(binding)
     end
 
     protected
@@ -32,6 +32,13 @@ module NFSe
     def if_param(*path, with: @params)
       value = param(*path, with: with)
       yield value unless value.nil?
+    end
+
+    private
+    def load_template(filepath)
+      filename = File.basename filepath
+      cachepath = File.join(Dir.tmpdir, "#{filename}.cache")
+      Erubis::FastEruby.load_file(filepath, cachename: cachepath)
     end
   end
 end

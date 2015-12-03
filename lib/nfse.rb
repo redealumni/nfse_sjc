@@ -24,21 +24,26 @@ module NFSe
   module Config
     class << self
       attr_writer :wsdl, :ssl_cert_file, :ssl_cert_key_file, :ssl_cert_key_password
-
-      def wsdl
-        @wsdl ||= ENV['NFSE_SJC_WSDL_URI']
+      def self.default_attr(attr_name, env_path)
+        class_eval <<-RUBY
+          def #{attr_name}
+            @#{attr_name} ||= ENV['#{env_path}']
+          end
+        RUBY
       end
 
-      def ssl_cert_file
-        @ssl_cert_file ||= ENV['NFSE_SJC_SSL_CERT_FILE']
-      end
+      default_attr :wsdl, 'NFSE_SJC_WSDL_URI'
+      default_attr :ssl_cert_file, 'NFSE_SJC_SSL_CERT_FILE'
+      default_attr :ssl_cert_key_file, 'NFSE_SJC_SSL_CERT_KEY_FILE'
+      default_attr :ssl_cert_key_password, 'NFSE_SJC_SSL_CERT_KEY_PASSWORD'
+      default_attr :log, 'NFSE_SJC_LOG'
+      default_attr :pretty_print_xml, 'NFSE_SJC_PRETTY_XML_LOG'
 
-      def ssl_cert_key_file
-        @ssl_cert_key_file ||= ENV['NFSE_SJC_SSL_CERT_KEY_FILE']
-      end
-
-      def ssl_cert_key_password
-        @ssl_cert_key_password ||= ENV['NFSE_SJC_SSL_CERT_KEY_PASSWORD']
+      def default_config
+        %i(wsdl ssl_cert_file ssl_cert_key_file ssl_cert_key_password log pretty_print_xml).map do |meth|
+          val = send(meth)
+          [meth, val] if val
+        end.compact.to_h
       end
     end
   end
@@ -48,17 +53,12 @@ module NFSe
   end
 
   class Client
-    def initialize(params = {})
-      @savon = Savon.client slice(params, :wsdl, :ssl_cert_file, :ssl_cert_key_file, :ssl_cert_key_password).merge({
-        wsdl: Config.wsdl, ssl_cert_file: Config.ssl_cert_file,
-        ssl_cert_key_file: Config.ssl_cert_key_file, ssl_cert_key_password: Config.ssl_cert_key_password
-      })
+    PARAM_KEYS = [:pretty_print_xml, :log, :wsdl, :ssl_cert_file,
+      :ssl_cert_key_file, :ssl_cert_key_password].freeze
 
-      @header = Document.new(Dirs.template('cabecalho_v3.xml.erb'), {
-        'Cabecalho' => {
-          'Versao' => '03', 'VersaoDados' => '03'
-        }
-      }).to_xml.freeze
+    def initialize(params = {})
+      @savon = Savon.client slice(params, *PARAM_KEYS).merge(Config.default_config)
+      @header = Document.new(Dirs.template('cabecalho_v3.xml.erb'), {}).to_xml.freeze
     end
 
     def call(method, params)
@@ -71,7 +71,7 @@ module NFSe
     private
     def slice(hash, *keys)
       keys.each_with_object({}) do |key, red|
-        red[key] = hash[key]
+        red[key] = hash[key] if hash.has_key?(key)
       end
     end
   end
