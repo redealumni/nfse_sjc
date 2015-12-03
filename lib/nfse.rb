@@ -64,7 +64,7 @@ module NFSe
     def call(method, params)
       @savon.call(method, message: {
         arg0: @header,
-        arg1: Document.new(Dirs.template("#{method}.xml.erb"), params)
+        arg1: Document.new(Dirs.template("#{method}.xml.erb"), params).to_xml
       })
     end
 

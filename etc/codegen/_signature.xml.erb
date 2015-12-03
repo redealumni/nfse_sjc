@@ -5,9 +5,9 @@
     </ds:SignatureMethod>
     <ds:Reference URI="<%= param('Signature', 'Reference', 'URI')%>">
       <ds:Transforms>
-        <% param('Signature', 'Reference', 'Transforms').each do |tr| %>
+        <% Array(param('Signature', 'Reference', 'Transforms')).each do |tr| %>
           <ds:Transform Algorithm="<% param('Algorithm', with: tr) %>">
-            <% param('XPath', with: tr).each do |xpath| %>
+            <% Array(param('XPath', with: tr)).each do |xpath| %>
               <ds:XPath><%= xpath %></ds:XPath>
             <% end %>
           </ds:Transform>
