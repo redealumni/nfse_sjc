@@ -17,7 +17,7 @@ module NFSe
     end
 
     def render(filepath, params = {}, of: ::NFSe::Document)
-      of.new(filepath, params).to_xml
+      of.new(NFSe::Dirs.template(filepath), params).to_xml
     end
 
     def param(*path, with: @params)

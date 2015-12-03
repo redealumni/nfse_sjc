@@ -1,11 +1,11 @@
-<ds:Signature Id="<%= param('Signature', 'Id') %>">
+<ds:Signature Id="<%= param('Id') %>">
   <ds:SignedInfo>
-    <ds:CanonicalizationMethod Algorithm="<%= param('Signature', 'CanonicalizationMethod', 'Algorithm')%>"/>
-    <ds:SignatureMethod Algorithm="<%= param('Signature', 'SignatureMethod', 'Algorithm')%>">
+    <ds:CanonicalizationMethod Algorithm="<%= param('CanonicalizationMethod', 'Algorithm')%>"/>
+    <ds:SignatureMethod Algorithm="<%= param('SignatureMethod', 'Algorithm')%>">
     </ds:SignatureMethod>
-    <ds:Reference URI="<%= param('Signature', 'Reference', 'URI')%>">
+    <ds:Reference URI="<%= param('Reference', 'URI')%>">
       <ds:Transforms>
-        <% Array(param('Signature', 'Reference', 'Transforms')).each do |tr| %>
+        <% Array(param('Reference', 'Transforms')).each do |tr| %>
           <ds:Transform Algorithm="<% param('Algorithm', with: tr) %>">
             <% Array(param('XPath', with: tr)).each do |xpath| %>
               <ds:XPath><%= xpath %></ds:XPath>
@@ -13,13 +13,13 @@
           </ds:Transform>
         <% end %>
       </ds:Transforms>
-      <ds:DigestMethod Algorithm="<%= param('Signature', 'DigestMethod', 'Algorithm')%>"/>
-      <ds:DigestValue><%= param('Signature', 'DigestMethod', 'DigestValue')%></ds:DigestValue>
+      <ds:DigestMethod Algorithm="<%= param('DigestMethod', 'Algorithm')%>"/>
+      <ds:DigestValue><%= param('DigestMethod', 'DigestValue')%></ds:DigestValue>
     </ds:Reference>
   </ds:SignedInfo>
   <ds:SignatureValue></ds:SignatureValue>
   <ds:KeyInfo></ds:KeyInfo>
   <ds:X509Data>
-    <ds:X509Certificate><%= param('Signature', 'X509Data', 'X509Certificate')%></ds:X509Certificate>
+    <ds:X509Certificate><%= param('X509Data', 'X509Certificate')%></ds:X509Certificate>
   </ds:X509Data>
 </ds:Signature>

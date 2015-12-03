@@ -23,8 +23,8 @@ module NFSe
 
   module Config
     class << self
-      attr_writer :wsdl, :ssl_cert_file, :ssl_cert_key_file, :ssl_cert_key_password
       def self.default_attr(attr_name, env_path)
+        attr_writer attr_name
         class_eval <<-RUBY
           def #{attr_name}
             @#{attr_name} ||= ENV['#{env_path}']
