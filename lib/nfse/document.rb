@@ -1,4 +1,6 @@
 require 'erubis'
+require 'xmldsig'
+require 'openssl'
 
 module NFSe
   class Document
@@ -9,6 +11,19 @@ module NFSe
 
     def to_xml
       @template.result(binding)
+    end
+
+    def to_signed_xml(signing_params = {})
+      signing_params = signing_params.merge(Config.default_config)
+      unsigned_xml = to_xml
+
+      private_key = OpenSSL::PKey::RSA.new(File.read(signing_params[:ssl_cert_key_file]),
+        signing_params[:ssl_cert_key_password])
+      certificate = OpenSSL::X509::Certificate.new(File.read signing_params[:ssl_cert_file])
+
+      Xmldsig::SignedDocument.new(unsigned_xml).sign(private_key).tap do |signed_xml|
+        raise "Invalid signature in XML" unless Xmldsig::SignedDocument.new(signed_xml).validate(certificate)
+      end
     end
 
     protected
