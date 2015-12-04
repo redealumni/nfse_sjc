@@ -1,11 +1,13 @@
 require 'erubis'
-require 'xmldsig'
 require 'openssl'
+require 'nokogiri-xmlsec'
 
 module NFSe
   class Document
     def initialize(filepath, params = {})
       @params = params
+      @basename = File.basename filepath
+      @schema = Schemas.get_schema @basename
       @template = load_template(filepath)
     end
 
@@ -15,15 +17,25 @@ module NFSe
 
     def to_signed_xml(signing_params = {})
       signing_params = signing_params.merge(Config.default_config)
-      unsigned_xml = to_xml
+      signed_xml = Nokogiri::XML(to_xml)
 
-      private_key = OpenSSL::PKey::RSA.new(File.read(signing_params[:ssl_cert_key_file]),
-        signing_params[:ssl_cert_key_password])
-      certificate = OpenSSL::X509::Certificate.new(File.read signing_params[:ssl_cert_file])
+      signed_xml.root.sign!({
+        cert: signing_data(signing_params[:ssl_cert_file]),
+        key: signing_data(signing_params[:ssl_cert_key_file]),
+        digest_alg: 'sha1',
+        signature_alg: 'rsa-sha1'
+      })
 
-      Xmldsig::SignedDocument.new(unsigned_xml).sign(private_key).tap do |signed_xml|
-        raise "Invalid signature in XML" unless Xmldsig::SignedDocument.new(signed_xml).validate(certificate)
+      signature_ns = signed_xml.root.namespace_definitions.find{|ns| ns.prefix == "ds"}
+      signed_xml.at_xpath('//ds:Signature').tap do |signature|
+        signature.traverse do |node|
+          node.namespace = signature_ns
+        end
       end
+
+      result = signed_xml.to_xml(indent: 2)
+      binding.pry
+      result
     end
 
     protected
@@ -51,9 +63,14 @@ module NFSe
 
     private
     def load_template(filepath)
-      filename = File.basename filepath
-      cachepath = File.join(Dir.tmpdir, "#{filename}.cache")
+      cachepath = File.join(Dir.tmpdir, "#{@basename}.cache")
       Erubis::FastEruby.load_file(filepath, cachename: cachepath)
+    end
+
+    def signing_data(filename)
+      @@signing_data ||= {}
+      @@signing_data[filename] = File.read(filename) unless @@signing_data[filename]
+      @@signing_data[filename]
     end
   end
 end
