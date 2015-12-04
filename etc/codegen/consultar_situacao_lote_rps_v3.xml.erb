@@ -11,7 +11,4 @@
     <% end %>
   </p:Prestador>
   <p:Protocolo><%= param('Protocolo') %></p:Protocolo>
-  <% Array(param('Signature')).each do |sign| %>
-    <%= render '_signature.xml.erb', sign %>
-  <% end %>
 </p:ConsultarSituacaoLoteRpsEnvio>

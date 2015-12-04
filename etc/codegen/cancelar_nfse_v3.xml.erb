@@ -16,8 +16,5 @@
       </p1:IdentificacaoNfse>
       <p1:CodigoCancelamento><%= param('PedidoCancelamento', 'CodigoCancelamento') %></p1:CodigoCancelamento>
     </p1:InfPedidoCancelamento>
-    <% Array(param('Signature')).each do |sign| %>
-      <%= render '_signature.xml.erb', sign %>
-    <% end %>
   </Pedido>
 </p:CancelarNfseEnvio>

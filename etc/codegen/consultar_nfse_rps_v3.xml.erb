@@ -15,7 +15,4 @@
       <p1:InscricaoMunicipal><%= val %></p1:InscricaoMunicipal>
     <% end %>
   </p:Prestador>
-  <% Array(param('Signature')).each do |sign| %>
-    <%= render '_signature.xml.erb', sign %>
-  <% end %>
 </p:ConsultarNfseRpsEnvio>
