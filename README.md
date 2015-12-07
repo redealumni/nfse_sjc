@@ -17,3 +17,9 @@ Para extrair o certificado em formato .pem:
 ```bash
   openssl pkcs12 -in certificado.pfx -clcerts -nokeys -out certificado.pem
 ```
+
+## TODO
+
+- Consertar assinaturas digitais
+  - Não estão sendo aceitas pelo webservice, não conseguem ser validadas localmente, mesmo quando geradas diretamente pela biblioteca baixo-nível `xmlsec1`
+  - Investigar cadeia de certificados do SINCOR
