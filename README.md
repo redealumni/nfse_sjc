@@ -22,4 +22,5 @@ Para extrair o certificado em formato .pem:
 
 - Consertar assinaturas digitais
   - Não estão sendo aceitas pelo webservice, não conseguem ser validadas localmente, mesmo quando geradas diretamente pela biblioteca baixo-nível `xmlsec1`
-  - Investigar cadeia de certificados do SINCOR
+  - Investigar cadeia de certificados do SINCOR - validação via `xmlsec1` sempre retorna erros do tipo `unable to get local issuer certificate`
+
