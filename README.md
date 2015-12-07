@@ -24,3 +24,17 @@ Para extrair o certificado em formato .pem:
   - Não estão sendo aceitas pelo webservice, não conseguem ser validadas localmente, mesmo quando geradas diretamente pela biblioteca baixo-nível `xmlsec1`
   - Investigar cadeia de certificados do SINCOR - validação via `xmlsec1` sempre retorna erros do tipo `unable to get local issuer certificate`
 
+
+### Pelo `xmlsec1`:
+
+* Assinatura:
+
+```bash
+  xmlsec1 --sign --privkey-pem cert/key.pem,cert/cert.pem --output signed.xml unsigned.xml
+```
+
+* Verificação:
+
+```bash
+  xmlsec1 --verify --trusted-pem cert/sincor/ACRaizBrasileira_v2.crt --untrusted-pem <(cat cert/sincor/ACRFBv3.crt cert/sincor/ACSINCORRFBG4.pem ) signed.xml
+```
