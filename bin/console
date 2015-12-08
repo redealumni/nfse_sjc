@@ -22,3 +22,15 @@ Pry.start
 # end
 
 # client = NFSe::Client.new
+
+## schema validation
+
+SCHEMA_FILE = File.join(File.dirname(__FILE__), "etc", "schemas", "servico_consultar_lote_rps_envio_v03.xsd")
+
+xsd = Dir.chdir(File.dirname(SCHEMA_FILE)) do |path|
+  Nokogiri::XML::Schema(File.read(File.basename(SCHEMA_FILE)))
+end
+
+document = Nokogiri::XML(File.read(File.join(File.dirname(__FILE__), "cert", "exemplo.xml")))
+
+xsd.validate(document)
