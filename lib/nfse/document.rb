@@ -19,14 +19,14 @@ module NFSe
       # binding.pry
 
       signing_params = signing_params.merge(Config.default_config)
-      unsigned_xml = Nokogiri::XML(to_xml)
+      unsigned_xml   = to_xml
 
       unsigned_temp_xml = Tempfile.new('unsigned-xml')
       signed_temp_xml   = Tempfile.new('signed-xml')
       result            = ''
 
       begin
-        unsigned_temp_xml.write(unsigned_xml.to_xml)
+        unsigned_temp_xml.write(unsigned_xml)
         unsigned_temp_xml.rewind
 
         %x{xmlsec1 --sign --privkey-pem '#{signing_params[:ssl_cert_key_file]}','#{signing_params[:ssl_cert_file]}' --output '#{signed_temp_xml.path}' --pwd '#{signing_params[:ssl_cert_key_password]}' '#{unsigned_temp_xml.path}'}
