@@ -1,6 +1,6 @@
 require 'erubis'
 require 'openssl'
-require 'nokogiri-xmlsec'
+require 'tempfile'
 
 module NFSe
   class Document
@@ -16,25 +16,31 @@ module NFSe
     end
 
     def to_signed_xml(signing_params = {})
+      # binding.pry
+
       signing_params = signing_params.merge(Config.default_config)
-      signed_xml = Nokogiri::XML(to_xml)
+      unsigned_xml = Nokogiri::XML(to_xml)
 
-      signed_xml.root.sign!({
-        cert: signing_data(signing_params[:ssl_cert_file]),
-        key: signing_data(signing_params[:ssl_cert_key_file]),
-        digest_alg: 'sha1',
-        signature_alg: 'rsa-sha1'
-      })
+      unsigned_temp_xml = Tempfile.new('unsigned-xml')
+      signed_temp_xml   = Tempfile.new('signed-xml')
+      result            = ''
 
-      signature_ns = signed_xml.root.namespace_definitions.find{|ns| ns.prefix == "ds"}
-      signed_xml.at_xpath('//ds:Signature').tap do |signature|
-        signature.traverse do |node|
-          node.namespace = signature_ns
-        end
+      begin
+        unsigned_temp_xml.write(unsigned_xml.to_xml)
+        unsigned_temp_xml.rewind
+
+        %x{xmlsec1 --sign --privkey-pem '#{signing_params[:ssl_cert_key_file]}','#{signing_params[:ssl_cert_file]}' --output '#{signed_temp_xml.path}' --pwd '#{signing_params[:ssl_cert_key_password]}' '#{unsigned_temp_xml.path}'}
+
+        signed_temp_xml.rewind
+        result = signed_temp_xml.read
+      ensure
+        signed_temp_xml.close
+        unsigned_temp_xml.close
+
+        signed_temp_xml.unlink
+        unsigned_temp_xml.unlink
       end
 
-      result = signed_xml.to_xml(indent: 2)
-      binding.pry
       result
     end
 
