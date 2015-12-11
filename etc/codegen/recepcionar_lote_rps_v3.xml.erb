@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:EnviarLoteRpsEnvio 
-  xmlns:ds="http://www.w3.org/2000/09/xmldsig#" 
-  xmlns:p="http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd" 
-  xmlns:p1="http://www.ginfes.com.br/tipos_v03.xsd" 
+<p:EnviarLoteRpsEnvio
+  xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+  xmlns:p="http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd"
+  xmlns:p1="http://www.ginfes.com.br/tipos_v03.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <p:LoteRps <%= if_param('LoteRps', 'Id') { |val| "Id=#{ val }" } %>>
+  <p:LoteRps <%= if_param('LoteRps', 'Id') { |val| "Id='#{ val }'" } %>>
     <p1:NumeroLote><%= param('LoteRps', 'NumeroLote') %></p1:NumeroLote>
     <p1:Cnpj><%= param('LoteRps', 'Cnpj') %></p1:Cnpj>
     <p1:InscricaoMunicipal><%= param('LoteRps', 'InscricaoMunicipal') %></p1:InscricaoMunicipal>
@@ -12,7 +12,7 @@
     <p1:ListaRps>
       <% param('LoteRps', 'ListaRps').each do |rps| %>
         <p1:Rps>
-          <p1:InfRps <%= if_param('Id', with: rps) { |val| "Id=#{ val }" } %>>
+          <p1:InfRps <%= if_param('Id', with: rps) { |val| "Id='#{ val }'" } %>>
             <p1:IdentificacaoRps>
               <p1:Numero><%= param('InfRps', 'IdentificacaoRps', 'Numero', with: rps) %></p1:Numero>
               <p1:Serie><%= param('InfRps', 'IdentificacaoRps', 'Serie', with: rps) %></p1:Serie>
@@ -35,7 +35,7 @@
             <% end %>
             <p1:Servico>
               <p1:Valores>
-                <% param('InfRps', 'Servico', 'Valores').tap do |values| %>
+                <% param('InfRps', 'Servico', 'Valores', with: rps).tap do |values| %>
                   <p1:ValorServicos><%= param('ValorServicos', with: values) %></p1:ValorServicos>
                   <p1:IssRetido><%= param('IssRetido', with: values) %></p1:IssRetido>
                   <% if_param('ValorDeducoes', with: values) do |val| %>
@@ -83,10 +83,10 @@
                 <% end %>
               </p1:Valores>
               <p1:ItemListaServico><%= param('InfRps', 'Servico', 'ItemListaServico', with: rps) %></p1:ItemListaServico>
-              <% if_param('InfRps', 'Servico', 'CodigoCnae' with: rps) do |val| %>
+              <% if_param('InfRps', 'Servico', 'CodigoCnae', with: rps) do |val| %>
                 <p1:CodigoCnae><%= val %></p1:CodigoCnae>
               <% end %>
-              <% if_param('InfRps', 'Servico', 'CodigoTributacaoMunicipio' with: rps) do |val| %>
+              <% if_param('InfRps', 'Servico', 'CodigoTributacaoMunicipio', with: rps) do |val| %>
                 <p1:CodigoTributacaoMunicipio><%= val %></p1:CodigoTributacaoMunicipio>
               <% end %>
               <p1:Discriminacao><%= param('InfRps', 'Servico', 'Discriminacao', with: rps) %></p1:Discriminacao>
@@ -178,4 +178,5 @@
       <% end %>
     </p1:ListaRps>
   </p:LoteRps>
+  <%= render '_signature.xml.erb' %>
 </p:EnviarLoteRpsEnvio>
