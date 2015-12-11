@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 module NFSe
   module Dirs
     def self.root
@@ -60,7 +62,7 @@ module NFSe
       'consultar_nfse_rps_v3.xml.erb' => 'servico_consultar_nfse_rps_envio_v03.xsd',
       'consultar_nfse_v3.xml.erb' => 'servico_consultar_nfse_envio_v03.xsd',
       'consultar_situacao_lote_rps_v3.xml.erb' => 'servico_consultar_situacao_lote_rps_envio_v03.xsd',
-      'enviar_lote_rps_v3.xml.erb' => 'servico_enviar_lote_rps_envio_v03.xsd'
+      'recepcionar_lote_rps_v3.xml.erb' => 'servico_enviar_lote_rps_envio_v03.xsd'
     }
 
     def self.get_schema(template)
@@ -78,13 +80,28 @@ module NFSe
     end
 
     def call(method, params)
-      @savon.call(method, message: {
-        arg0: @header,
-        arg1: Document.new(Dirs.template("#{method}.xml.erb"), params).to_signed_xml
-      })
+      schema = Schemas.get_schema("#{method}.xml.erb")
+
+      xsd = Dir.chdir(File.dirname(File.join(Dirs.etc, 'schemas', schema))) do |path|
+        Nokogiri::XML::Schema(File.read(File.basename(schema)))
+      end
+
+      document = Nokogiri::XML(Document.new(Dirs.template("#{method}.xml.erb"), params).to_signed_xml)
+
+      errors = xsd.validate(document)
+
+      if errors.any?
+        puts errors.inject(''){|msg, error| msg += "* #{error}\n".gsub('{http://www.ginfes.com.br/tipos_v03.xsd}','').gsub('Element ','')}
+      else
+        @savon.call(method, message: {
+          arg0: @header,
+          arg1: Document.new(Dirs.template("#{method}.xml.erb"), params).to_signed_xml
+        })
+      end
     end
 
     private
+
     def slice(hash, *keys)
       keys.each_with_object({}) do |key, red|
         red[key] = hash[key] if hash.has_key?(key)
