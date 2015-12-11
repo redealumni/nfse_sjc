@@ -114,7 +114,9 @@
                   <p1:InscricaoMunicipal><%= val %></p1:InscricaoMunicipal>
                 <% end %>
               </p1:IdentificacaoTomador>
-              <p1:RazaoSocial><%= param('InfRps', 'Tomador', 'RazaoSocial', with: rps)%></p1:RazaoSocial>
+              <% if_param('InfRps', 'Tomador', 'RazaoSocial', with: rps) do |val| %>
+                <p1:RazaoSocial><%= val %></p1:RazaoSocial>
+              <% end %>
               <% if_param('InfRps', 'Tomador', 'Endereco', with: rps) do |endr| %>
                 <p1:Endereco>
                   <% if_param('Endereco', with: endr) do |val| %>
