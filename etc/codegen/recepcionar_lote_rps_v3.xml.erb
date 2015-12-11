@@ -25,7 +25,7 @@
             <% end %>
             <p1:OptanteSimplesNacional><%= param('InfRps', 'OptanteSimplesNacional', with: rps) %></p1:OptanteSimplesNacional>
             <p1:IncentivadorCultural><%= param('InfRps', 'IncentivadorCultural', with: rps) %></p1:IncentivadorCultural>
-            <p1:Status><%= param('InfRps', 'IdentificacaoRps', 'Status', with: rps) %></p1:Status>
+            <p1:Status><%= param('InfRps', 'Status', with: rps) %></p1:Status>
             <% if_param('InfRps', 'RpsSubstituido', with: rps) do |sub| %>
               <p1:RpsSubstituido>
                 <p1:Numero><%= param('Numero', with: sub) %></p1:Numero>
@@ -114,7 +114,7 @@
                   <p1:InscricaoMunicipal><%= val %></p1:InscricaoMunicipal>
                 <% end %>
               </p1:IdentificacaoTomador>
-              <p1:RazaoSocial><%= param('InfRps', 'Tomador', 'InscricaoMunicipal', with: rps)%></p1:RazaoSocial>
+              <p1:RazaoSocial><%= param('InfRps', 'Tomador', 'RazaoSocial', with: rps)%></p1:RazaoSocial>
               <% if_param('InfRps', 'Tomador', 'Endereco', with: rps) do |endr| %>
                 <p1:Endereco>
                   <% if_param('Endereco', with: endr) do |val| %>
@@ -151,22 +151,26 @@
                 </p1:Contato>
               <% end %>
             </p1:Tomador>
-            <p1:IntermediarioServico>
-              <% if_param('InfRps', 'IntermediarioServico', 'CpfCnpj', with: rps) do |val| %>
-                <p1:CpfCnpj>
-                  <% if_param('Cnpj', with: val) do |cnpj| %>
-                    <p1:Cnpj><%= cnpj %></p1:Cnpj>
-                  <% end %>
-                  <% if_param('Cpf', with: val) do |cpf| %>
-                    <p1:Cpf><%= cpf %></p1:Cpf>
-                  <% end %>
-                </p1:CpfCnpj>
-              <% end %>
-              <% if_param('InfRps', 'IntermediarioServico', 'InscricaoMunicipal', with: rps) do |val| %>
-                <p1:InscricaoMunicipal><%= val %></p1:InscricaoMunicipal>
-              <% end %>
-              <p1:RazaoSocial><%= param('InfRps', 'IntermediarioServico', 'RazaoSocial', with: rps) %></p1:RazaoSocial>
-            </p1:IntermediarioServico>
+            <% if_param('InfRps', 'IntermediarioServico', with: rps) do |is| %>
+              <p1:IntermediarioServico>
+                <% if_param('CpfCnpj', with: is) do |val| %>
+                  <p1:CpfCnpj>
+                    <% if_param('Cnpj', with: val) do |cnpj| %>
+                      <p1:Cnpj><%= cnpj %></p1:Cnpj>
+                    <% end %>
+                    <% if_param('Cpf', with: val) do |cpf| %>
+                      <p1:Cpf><%= cpf %></p1:Cpf>
+                    <% end %>
+                  </p1:CpfCnpj>
+                <% end %>
+                <% if_param('InscricaoMunicipal', with: is) do |val| %>
+                  <p1:InscricaoMunicipal><%= val %></p1:InscricaoMunicipal>
+                <% end %>
+                <% if_param('RazaoSocial', with: is) do |val| %>
+                  <p1:RazaoSocial><%= val %></p1:RazaoSocial>
+                <% end %>
+              </p1:IntermediarioServico>
+            <% end %>
             <% if_param('InfRps', 'ConstrucaoCivil', with: rps) do |cc| %>
               <p1:ConstrucaoCivil>
                 <p1:CodigoObra><%= param('CodigoObra', with: cc) %></p1:CodigoObra>

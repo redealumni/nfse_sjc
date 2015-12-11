@@ -64,7 +64,7 @@ module NFSe
 
     def if_param(*path, with: @params)
       value = param(*path, with: with)
-      yield value unless value.nil?
+      yield value unless value.nil? || value.empty?
     end
 
     private
