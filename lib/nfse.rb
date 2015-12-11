@@ -71,6 +71,8 @@ module NFSe
   end
 
   class Client
+    ValidationError = Class.new(RuntimeError)
+
     PARAM_KEYS = [:pretty_print_xml, :log, :wsdl, :ssl_cert_file,
       :ssl_cert_key_file, :ssl_cert_key_password].freeze
 
@@ -81,21 +83,22 @@ module NFSe
 
     def call(method, params)
       schema = Schemas.get_schema("#{method}.xml.erb")
+      schema_path = File.join Dirs.etc, 'schemas', schema
+      xsd = Nokogiri::XML::Schema(File.open schema_path)
+      document = Document.new(Dirs.template("#{method}.xml.erb"), params).to_signed_xml
 
-      xsd = Dir.chdir(File.dirname(File.join(Dirs.etc, 'schemas', schema))) do |path|
-        Nokogiri::XML::Schema(File.read(File.basename(schema)))
-      end
-
-      document = Nokogiri::XML(Document.new(Dirs.template("#{method}.xml.erb"), params).to_signed_xml)
-
-      errors = xsd.validate(document)
+      errors = xsd.validate(Nokogiri::XML(document))
 
       if errors.any?
-        puts errors.inject(''){|msg, error| msg += "* #{error}\n".gsub('{http://www.ginfes.com.br/tipos_v03.xsd}','').gsub('Element ','')}
+        message = errors.map do |err|
+          "* #{err}".gsub('{http://www.ginfes.com.br/tipos_v03.xsd}','').gsub('Element ', '')
+        end.join("\n")
+
+        raise ValidationError.new("XML with invalid or incorrect data according to schema #{schema}, found errors:\n #{message}")
       else
         @savon.call(method, message: {
           arg0: @header,
-          arg1: Document.new(Dirs.template("#{method}.xml.erb"), params).to_signed_xml
+          arg1: document
         })
       end
     end
