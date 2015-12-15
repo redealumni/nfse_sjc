@@ -1,4 +1,2 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'nfse/sjc'
-
-require 'minitest/autorun'
+require 'nfse_sjc'

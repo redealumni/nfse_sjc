@@ -1,3 +1,3 @@
-module NFSe
+module NfseSjc
   VERSION = "0.1.0"
 end

@@ -2,12 +2,12 @@ require 'erubis'
 require 'openssl'
 require 'tempfile'
 
-module NFSe
+module NfseSjc
   class Document
     def initialize(filepath, params = {})
-      @params = params
+      @params   = params
       @basename = File.basename filepath
-      @schema = Schemas.get_schema @basename
+      @schema   = Schemas.get_schema @basename
       @template = load_template(filepath)
     end
 
@@ -16,8 +16,6 @@ module NFSe
     end
 
     def to_signed_xml(signing_params = {})
-      # binding.pry
-
       signing_params = signing_params.merge(Config.default_config)
       unsigned_xml   = to_xml
 
@@ -45,12 +43,9 @@ module NFSe
     end
 
     protected
-    def schema_path(schema)
-      File.join NFSe::Dirs.etc, "schemas", schema
-    end
 
-    def render(filepath, params = {}, of: ::NFSe::Document)
-      of.new(NFSe::Dirs.template(filepath), params).to_xml
+    def render(filepath, params = {}, of: ::NfseSjc::Document)
+      of.new(NfseSjc::Dirs.template(filepath), params).to_xml
     end
 
     def param(*path, with: @params)

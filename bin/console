@@ -1,22 +1,7 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
-require "nfse"
-
-# You can add fixtures and/or initialization code here to make experimenting
-# with your gem easier. You can also use a different console, if you like.
-
-# (If you use this, don't forget to add pry to your Gemfile!)
-# require "pry"
-# Pry.start
+require "nfse_sjc"
 
 require "pry"
 Pry.start
-
-## example
-# NFSe.config do |cfg|
-#   cfg.wsdl = 'https://homologacao.ginfes.com.br/ServiceGinfesImpl?wsdl'
-#   cfg.ssl_cert_file = 'cert/certificado.pem'
-#   cfg.ssl_cert_key_file = 'cert/chave-privada.pem'
-#   cfg.ssl_cert_key_password = 'INSERT_YOUR_PASSWORD_HERE'
-# end

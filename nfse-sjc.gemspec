@@ -1,17 +1,21 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'nfse/version'
+require 'nfse_sjc/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "nfse-sjc"
-  spec.version       = NFSe::VERSION
-  spec.authors       = ["Daniel Gracia"]
-  spec.email         = ["daniel.santos@redealumni.com"]
+  spec.version       = NfseSjc::VERSION
+  spec.authors       = ['Daniel Gracia', 'Thiago Brandão']
+  spec.email         = ['daniel.santos@redealumni.com', 'thiago@redealumni.com']
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{
+    Gerador de NFS-e via API para a prefeitura de São José dos Campos
+  }
+  spec.description   = %q{
+    Gem para comunicação via API com o sistema de NFS-e da prefeitura de São José dos Campos
+  }
+  spec.homepage      = "https://github.com/redealumni/nfse-sjc"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
   # delete this section to allow pushing this gem to any host.
@@ -31,6 +35,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "minitest"
+  spec.add_development_dependency "rspec"
   spec.add_development_dependency "pry"
 end
