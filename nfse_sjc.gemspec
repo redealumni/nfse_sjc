@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'nfse_sjc/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "nfse-sjc"
+  spec.name          = "nfse_sjc"
   spec.version       = NfseSjc::VERSION
   spec.authors       = ['Daniel Gracia', 'Thiago Brandão']
   spec.email         = ['daniel.santos@redealumni.com', 'thiago@redealumni.com']
