@@ -10,7 +10,11 @@ require_relative 'nfse_sjc/version'
 require_relative 'nfse_sjc/client'
 
 module NfseSjc
-  def self.config
-    yield Config
+  def self.config(at: nil)
+    if block_given?
+      yield Config
+    else
+      Config.to_h(at: at)
+    end
   end
 end

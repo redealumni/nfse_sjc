@@ -18,8 +18,10 @@ module NfseSjc
       default_attr :pretty_print_xml,      'NFSE_SJC_PRETTY_XML_LOG'
       default_attr :xmlsec_binary_path,    'NFSE_SJC_XMLSEC_BINARY_PATH'
 
-      def default_config
-        %i(wsdl ssl_cert_file ssl_cert_key_file ssl_cert_key_password log pretty_print_xml).map do |meth|
+      def to_h(at: nil)
+        %i(wsdl ssl_cert_file ssl_cert_key_file ssl_cert_key_password log pretty_print_xml xmlsec_binary_path).select do |prop|
+          at.blank? || at.include?(prop)
+        end.map do |meth|
           val = send(meth)
           [meth, val] if val
         end.compact.to_h

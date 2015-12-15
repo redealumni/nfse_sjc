@@ -4,7 +4,7 @@ module NfseSjc
       :ssl_cert_key_file, :ssl_cert_key_password].freeze
 
     def initialize(params = {})
-      @savon  = Savon.client slice(params, *PARAM_KEYS).merge(Config.default_config)
+      @savon  = Savon.client slice(params, *PARAM_KEYS).merge(NfseSjc.config(at: PARAM_KEYS))
       @header = Document.new(Dirs.template('cabecalho_v3.xml.erb'), {}).to_xml.freeze
     end
 
@@ -21,7 +21,7 @@ module NfseSjc
           "* #{err}".gsub('{http://www.ginfes.com.br/tipos_v03.xsd}','').gsub('Element ', '')
         end.join("\n")
 
-        raise ValidationError.new("XML with invalid or incorrect data according to schema #{schema}, found errors:\n #{message}")
+        raise NfseSjc::Errors::ValidationError.new("XML with invalid or incorrect data according to schema #{schema}, found errors:\n #{message}")
       else
         @savon.call(method, message: {
           arg0: @header,
