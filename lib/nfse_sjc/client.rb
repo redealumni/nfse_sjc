@@ -5,6 +5,7 @@ module NfseSjc
 
     def initialize(params = {})
       @savon  = Savon.client slice(params, *PARAM_KEYS).merge(NfseSjc.config(at: PARAM_KEYS))
+      @parser = Parser.new
       @header = Document.new(Dirs.template('cabecalho_v3.xml.erb'), {}).to_xml.freeze
     end
 
@@ -23,10 +24,12 @@ module NfseSjc
 
         raise NfseSjc::Errors::ValidationError.new("XML with invalid or incorrect data according to schema #{schema}, found errors:\n #{message}")
       else
-        @savon.call(method, message: {
+        response = @savon.call(method, message: {
           arg0: @header,
           arg1: document
         })
+
+        @parser.parse(response.body[:"#{method}_response"][:return])
       end
     end
 

@@ -1,5 +1,4 @@
 require 'erubis'
-require 'openssl'
 require 'tempfile'
 
 module NfseSjc
@@ -65,12 +64,6 @@ module NfseSjc
     def load_template(filepath)
       cachepath = File.join(Dir.tmpdir, "#{@basename}.cache")
       Erubis::FastEruby.load_file(filepath, cachename: cachepath)
-    end
-
-    def signing_data(filename)
-      @@signing_data ||= {}
-      @@signing_data[filename] = File.read(filename) unless @@signing_data[filename]
-      @@signing_data[filename]
     end
   end
 end
