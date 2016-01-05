@@ -5,8 +5,6 @@ module NfseSjc
   class Document
     def initialize(filepath, params = {})
       @params   = params
-      @basename = File.basename filepath
-      @schema   = Schemas.get_schema @basename
       @template = load_template(filepath)
     end
 
@@ -57,12 +55,12 @@ module NfseSjc
 
     def if_param(*path, with: @params)
       value = param(*path, with: with)
-      yield value unless value.nil? || value.empty?
+      yield value unless value.nil? || (value.respond_to?(:empty) && value.empty?)
     end
 
     private
     def load_template(filepath)
-      cachepath = File.join(Dir.tmpdir, "#{@basename}.cache")
+      cachepath = File.join(Dir.tmpdir, "#{File.basename(filepath)}.cache")
       Erubis::FastEruby.load_file(filepath, cachename: cachepath)
     end
   end
