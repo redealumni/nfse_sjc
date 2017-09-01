@@ -5,7 +5,7 @@
   xmlns:p1="http://www.ginfes.com.br/tipos_v03.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Pedido>
-    <p1:InfPedidoCancelamento <%= if_param('PedidoCancelamento', 'Id') { |val| "Id=#{ val }" } %>>
+    <p1:InfPedidoCancelamento <%= if_param('PedidoCancelamento', 'Id') { |val| "Id='#{ val }'" } %>>
       <p1:IdentificacaoNfse>
         <p1:Numero><%= param('PedidoCancelamento', 'IdentificacaoNfse', 'Numero')%></p1:Numero>
         <p1:Cnpj><%= param('PedidoCancelamento', 'IdentificacaoNfse', 'Cnpj')%></p1:Cnpj>
@@ -17,4 +17,5 @@
       <p1:CodigoCancelamento><%= param('PedidoCancelamento', 'CodigoCancelamento') %></p1:CodigoCancelamento>
     </p1:InfPedidoCancelamento>
   </Pedido>
+  <%= render '_signature.xml.erb' %>
 </p:CancelarNfseEnvio>
