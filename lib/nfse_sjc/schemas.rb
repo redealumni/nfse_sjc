@@ -7,7 +7,8 @@ module NfseSjc
       'consultar_nfse_rps_v3.xml.erb' => 'servico_consultar_nfse_rps_envio_v03.xsd',
       'consultar_nfse_v3.xml.erb' => 'servico_consultar_nfse_envio_v03.xsd',
       'consultar_situacao_lote_rps_v3.xml.erb' => 'servico_consultar_situacao_lote_rps_envio_v03.xsd',
-      'recepcionar_lote_rps_v3.xml.erb' => 'servico_enviar_lote_rps_envio_v03.xsd'
+      'recepcionar_lote_rps_v3.xml.erb' => 'servico_enviar_lote_rps_envio_v03.xsd',
+      'cancelar_nfse.xml.erb' => 'servico_cancelar_nfse_envio_v02.xsd',
     }
 
     def self.get_schema(template)

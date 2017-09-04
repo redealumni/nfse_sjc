@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:tipos="http://www.ginfes.com.br/tipos"
+	targetNamespace="http://www.ginfes.com.br/servico_cancelar_nfse_envio"
+	elementFormDefault="qualified" attributeFormDefault="qualified">
+  <xsd:import schemaLocation="tipos_v02.xsd"	namespace="http://www.ginfes.com.br/tipos" />
+	<xsd:element name="cabecalho">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="versaoDados" type="tipos:tsVersao"
+					minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+			<xsd:attribute name="versao" type="tipos:tsVersao" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

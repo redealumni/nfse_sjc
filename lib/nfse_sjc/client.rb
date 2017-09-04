@@ -6,7 +6,8 @@ module NfseSjc
     def initialize(params = {})
       @savon  = Savon.client slice(params, *PARAM_KEYS).merge(NfseSjc.config(at: PARAM_KEYS))
       @parser = Parser.new
-      @header = Document.new(Dirs.template('cabecalho_v3.xml.erb'), {}).to_xml.freeze
+      # @header = Document.new(Dirs.template('cabecalho_v3.xml.erb'), {}).to_xml.freeze
+      @header = Document.new(Dirs.template('cabecalho_v2.xml.erb'), {}).to_xml.freeze
     end
 
     def call(method, params)
@@ -46,4 +47,3 @@ module NfseSjc
     end
   end
 end
-
