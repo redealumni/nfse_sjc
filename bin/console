@@ -4,4 +4,12 @@ require "bundler/setup"
 require "nfse_sjc"
 
 require "pry"
+
+def reload!
+  files = $LOADED_FEATURES.select { |feat| feat =~ /\/nfse_sjc\// }
+  files.each { |file| load file }
+end
+
+ARGV.clear
+
 Pry.start
