@@ -13,10 +13,13 @@
   <% if_param('NumeroNfse') do |val| %>
     <p:NumeroNfse><%= val %></p:NumeroNfse>
   <% end %>
+  <% if_param('PeriodoEmissao') do |val| %>
   <p:PeriodoEmissao>
     <p:DataInicial><%= param('PeriodoEmissao', 'DataInicial') %></p:DataInicial>
     <p:DataFinal><%= param('PeriodoEmissao', 'DataFinal') %></p:DataFinal>
   </p:PeriodoEmissao>
+  <% end %>
+  <% if_param('Tomador') do |val| %>
   <p:Tomador>
     <% if_param('Tomador', 'CpfCnpj') do |val| %>
       <p1:CpfCnpj>
@@ -32,6 +35,8 @@
       <p1:InscricaoMunicipal><%= val %></p1:InscricaoMunicipal>
     <% end %>
   </p:Tomador>
+  <% end %>
+  <% if_param('IntermediarioServico') do |val| %>
   <p:IntermediarioServico>
     <p1:RazaoSocial><%= param('IntermediarioServico', 'RazaoSocial') %></p1:RazaoSocial>
     <% if_param('IntermediarioServico', 'CpfCnpj') do |val| %>
@@ -48,4 +53,6 @@
       <p1:InscricaoMunicipal><%= val %></p1:InscricaoMunicipal>
     <% end %>
   </p:IntermediarioServico>
+  <% end %>
+  <%= render '_signature.xml.erb' %>
 </p:ConsultarNfseEnvio>
