@@ -7,7 +7,7 @@ Gem para comunicação via API com o sistema de NFS-e da prefeitura de São Jos�
 Adicione essa linha no Gemfile de sua aplicação:
 
 ```ruby
-  gem 'nfse_sjc', '~> 0.1.0'
+  gem 'nfse_sjc', '~> 0.1'
 ```
 
 Em seguida, execute:
